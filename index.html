@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Obiekty sportowo-reakreacyjne na tle placówek oświaty</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/placwkiowiaty_1.js"></script>
+        <script src="data/stadiony_2.js"></script>
+        <script src="data/placegierizabaw_3.js"></script>
+        <script src="data/placesportowe_4.js"></script>
+        <script src="data/kortytenisowe_5.js"></script>
+        <script src="data/baseny_6.js"></script>
+        <script src="data/bienie_7.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[50.065093207335224,18.47595849358067],[50.12976398298469,18.625171939014503]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OpenStreetMap_0');
+        map.getPane('pane_OpenStreetMap_0').style.zIndex = 400;
+        var layer_OpenStreetMap_0 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OpenStreetMap_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OpenStreetMap_0;
+        map.addLayer(layer_OpenStreetMap_0);
+        function pop_placwkiowiaty_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">rodzaj</th>\
+                        <td>' + (feature.properties['rodzaj'] !== null ? autolinker.link(feature.properties['rodzaj'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>nazwa</strong><br />' + (feature.properties['nazwa'] !== null ? autolinker.link(feature.properties['nazwa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">informacja</th>\
+                        <td>' + (feature.properties['informacja'] !== null ? autolinker.link(feature.properties['informacja'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_placwkiowiaty_1_0() {
+            return {
+                pane: 'pane_placwkiowiaty_1',
+                opacity: 1,
+                color: 'rgba(119,61,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(152,78,163,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_placwkiowiaty_1');
+        map.getPane('pane_placwkiowiaty_1').style.zIndex = 401;
+        map.getPane('pane_placwkiowiaty_1').style['mix-blend-mode'] = 'normal';
+        var layer_placwkiowiaty_1 = new L.geoJson(json_placwkiowiaty_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_placwkiowiaty_1',
+            layerName: 'layer_placwkiowiaty_1',
+            pane: 'pane_placwkiowiaty_1',
+            onEachFeature: pop_placwkiowiaty_1,
+            style: style_placwkiowiaty_1_0,
+        });
+        bounds_group.addLayer(layer_placwkiowiaty_1);
+        map.addLayer(layer_placwkiowiaty_1);
+        function pop_stadiony_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kategoriaI'] !== null ? autolinker.link(feature.properties['kategoriaI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>rodzaj</strong><br />' + (feature.properties['rodzaj'] !== null ? autolinker.link(feature.properties['rodzaj'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_stadiony_2_0() {
+            return {
+                pane: 'pane_stadiony_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(190,207,80,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_stadiony_2');
+        map.getPane('pane_stadiony_2').style.zIndex = 402;
+        map.getPane('pane_stadiony_2').style['mix-blend-mode'] = 'normal';
+        var layer_stadiony_2 = new L.geoJson(json_stadiony_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_stadiony_2',
+            layerName: 'layer_stadiony_2',
+            pane: 'pane_stadiony_2',
+            onEachFeature: pop_stadiony_2,
+            style: style_stadiony_2_0,
+        });
+        bounds_group.addLayer(layer_stadiony_2);
+        map.addLayer(layer_stadiony_2);
+        function pop_placegierizabaw_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kategoriaI'] !== null ? autolinker.link(feature.properties['kategoriaI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>rodzaj</strong><br />' + (feature.properties['rodzaj'] !== null ? autolinker.link(feature.properties['rodzaj'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_placegierizabaw_3_0() {
+            return {
+                pane: 'pane_placegierizabaw_3',
+                opacity: 1,
+                color: 'rgba(247,225,55,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,51,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_placegierizabaw_3');
+        map.getPane('pane_placegierizabaw_3').style.zIndex = 403;
+        map.getPane('pane_placegierizabaw_3').style['mix-blend-mode'] = 'normal';
+        var layer_placegierizabaw_3 = new L.geoJson(json_placegierizabaw_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_placegierizabaw_3',
+            layerName: 'layer_placegierizabaw_3',
+            pane: 'pane_placegierizabaw_3',
+            onEachFeature: pop_placegierizabaw_3,
+            style: style_placegierizabaw_3_0,
+        });
+        bounds_group.addLayer(layer_placegierizabaw_3);
+        map.addLayer(layer_placegierizabaw_3);
+        function pop_placesportowe_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kategoriaI'] !== null ? autolinker.link(feature.properties['kategoriaI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>rodzaj</strong><br />' + (feature.properties['rodzaj'] !== null ? autolinker.link(feature.properties['rodzaj'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_placesportowe_4_0() {
+            return {
+                pane: 'pane_placesportowe_4',
+                opacity: 1,
+                color: 'rgba(128,14,16,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,26,28,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_placesportowe_4');
+        map.getPane('pane_placesportowe_4').style.zIndex = 404;
+        map.getPane('pane_placesportowe_4').style['mix-blend-mode'] = 'normal';
+        var layer_placesportowe_4 = new L.geoJson(json_placesportowe_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_placesportowe_4',
+            layerName: 'layer_placesportowe_4',
+            pane: 'pane_placesportowe_4',
+            onEachFeature: pop_placesportowe_4,
+            style: style_placesportowe_4_0,
+        });
+        bounds_group.addLayer(layer_placesportowe_4);
+        map.addLayer(layer_placesportowe_4);
+        function pop_kortytenisowe_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>rodzaj</strong><br />' + (feature.properties['rodzaj'] !== null ? autolinker.link(feature.properties['rodzaj'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_kortytenisowe_5_0() {
+            return {
+                pane: 'pane_kortytenisowe_5',
+                opacity: 1,
+                color: 'rgba(128,62,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_kortytenisowe_5');
+        map.getPane('pane_kortytenisowe_5').style.zIndex = 405;
+        map.getPane('pane_kortytenisowe_5').style['mix-blend-mode'] = 'normal';
+        var layer_kortytenisowe_5 = new L.geoJson(json_kortytenisowe_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_kortytenisowe_5',
+            layerName: 'layer_kortytenisowe_5',
+            pane: 'pane_kortytenisowe_5',
+            onEachFeature: pop_kortytenisowe_5,
+            style: style_kortytenisowe_5_0,
+        });
+        bounds_group.addLayer(layer_kortytenisowe_5);
+        map.addLayer(layer_kortytenisowe_5);
+        function pop_baseny_6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kategoriaI'] !== null ? autolinker.link(feature.properties['kategoriaI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>rodzaj</strong><br />' + (feature.properties['rodzaj'] !== null ? autolinker.link(feature.properties['rodzaj'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_baseny_6_0() {
+            return {
+                pane: 'pane_baseny_6',
+                opacity: 1,
+                color: 'rgba(38,89,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(55,126,184,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_baseny_6');
+        map.getPane('pane_baseny_6').style.zIndex = 406;
+        map.getPane('pane_baseny_6').style['mix-blend-mode'] = 'normal';
+        var layer_baseny_6 = new L.geoJson(json_baseny_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_baseny_6',
+            layerName: 'layer_baseny_6',
+            pane: 'pane_baseny_6',
+            onEachFeature: pop_baseny_6,
+            style: style_baseny_6_0,
+        });
+        bounds_group.addLayer(layer_baseny_6);
+        map.addLayer(layer_baseny_6);
+        function pop_bienie_7(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kategoriaI'] !== null ? autolinker.link(feature.properties['kategoriaI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>rodzaj</strong><br />' + (feature.properties['rodzaj'] !== null ? autolinker.link(feature.properties['rodzaj'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_bienie_7_0() {
+            return {
+                pane: 'pane_bienie_7',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_bienie_7');
+        map.getPane('pane_bienie_7').style.zIndex = 407;
+        map.getPane('pane_bienie_7').style['mix-blend-mode'] = 'normal';
+        var layer_bienie_7 = new L.geoJson(json_bienie_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_bienie_7',
+            layerName: 'layer_bienie_7',
+            pane: 'pane_bienie_7',
+            onEachFeature: pop_bienie_7,
+            style: style_bienie_7_0,
+        });
+        bounds_group.addLayer(layer_bienie_7);
+        map.addLayer(layer_bienie_7);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Obiekty sportowo-reakreacyjne na tle placówek oświaty</h2>';
+            };
+            title.addTo(map);
+        var popup = L.popup();
+		function onMapClick(e) {
+			 popup
+			 .setLatLng(e.latlng)
+			 .setContent('Współrzędne: ' + e.latlng.lat.toFixed(6) + ', ' + e.latlng.lng.toFixed(6))
+			 .openOn(map);
+			}
+		map.on('click', onMapClick);
+		var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/bienie_7.png" /> bieżnie': layer_bienie_7,'<img src="legend/baseny_6.png" /> baseny': layer_baseny_6,'<img src="legend/kortytenisowe_5.png" /> korty tenisowe': layer_kortytenisowe_5,'<img src="legend/placesportowe_4.png" /> place sportowe': layer_placesportowe_4,'<img src="legend/placegierizabaw_3.png" /> place gier i zabaw': layer_placegierizabaw_3,'<img src="legend/stadiony_2.png" /> stadiony': layer_stadiony_2,'<img src="legend/placwkiowiaty_1.png" /> placówki oświaty': layer_placwkiowiaty_1,"OpenStreetMap": layer_OpenStreetMap_0,}).addTo(map);
+        setBounds();
+		var layer_OpenStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
+		});
+		map.addLayer(layer_OpenStreetMap);
+		
+		L.control.scale({
+		  metric: true,
+		  imperial: false,
+		}).addTo(map);
+        </script>
+    </body>
+</html>
